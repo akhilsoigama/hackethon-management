@@ -4,113 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Nabha Shiksha - Complete Solution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.5/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.14.1/dist/umd/react-router-dom.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a2a6c',
+                        secondary: '#b21f1f',
+                        accent: '#fdbb2d',
+                        light: '#f8f9fa',
+                        dark: '#212529',
+                        success: '#28a745',
+                        warning: '#ffc107',
+                        danger: '#dc3545',
+                        gray: '#6c757d',
+                        lightGray: '#e9ecef',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        :root {
-            --primary: #1a2a6c;
-            --secondary: #b21f1f;
-            --accent: #fdbb2d;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
-        
         body {
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #333;
             min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Header Styles */
-        .header {
-            text-align: center;
-            padding: 25px;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .header h1 {
-            color: var(--primary);
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .header p {
-            color: var(--gray);
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        /* Tab Navigation */
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        
-        .tab-btn {
-            padding: 16px 24px;
-            background: var(--light);
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--dark);
-            flex-grow: 1;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .tab-btn:hover {
-            background: var(--light-gray);
-        }
-        
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
         }
         
         @keyframes fadeIn {
@@ -118,369 +42,441 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* UI Mockups */
-        .ui-mockup {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin: 25px 0;
+        .tab-content {
+            display: none;
         }
         
-        .mockup {
-            width: 280px;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
         
-        .mockup:hover {
-            transform: translateY(-5px);
+        .chart-container {
+            max-width: 400px;
+            margin: 0 auto;
         }
         
-        .mockup-header {
-            background: var(--primary);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        .mockup-body {
-            padding: 20px;
-            min-height: 200px;
-            background: var(--light);
-        }
-        
-        .mockup-screen {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
-            height: 180px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-        
-        /* Performance Section */
-        .performance-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .perf-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .perf-card h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* Libraries Section */
-        .libraries-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .lib-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .lib-card.avoid {
-            border-left: 5px solid var(--danger);
-        }
-        
-        .lib-card.use {
-            border-left: 5px solid var(--success);
-        }
-        
-        .lib-card h3 {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .lib-card.avoid h3 {
-            color: var(--danger);
-        }
-        
-        .lib-card.use h3 {
-            color: var(--success);
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: white;
-            padding: 20px;
-            font-size: 1.1rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .tab-btn {
-                flex-basis: 50%;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .tab-btn {
-                flex-basis: 100%;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-            }
-        }
-        
-        /* Lists */
-        ul {
-            padding-left: 20px;
-            margin-bottom: 20px;
-        }
-        
-        li {
-            margin-bottom: 10px;
-        }
-        
-        /* Section Headers */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 25px 0 15px 0;
-            color: var(--primary);
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 10px;
+        canvas {
+            width: 100% !important;
+            height: auto !important;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-laptop-code"></i> Digital Nabha Shiksha</h1>
-            <p>Bridging the Digital Divide in Rural Education with Optimized Technology</p>
+<body class="text-gray-800 p-5 md:p-8">
+    <div class="container mx-auto max-w-7xl">
+        <!-- Header -->
+        <div class="bg-white bg-opacity-95 rounded-xl text-center p-6 shadow-lg mb-8">
+            <h1 class="text-3xl md:text-5xl font-bold text-primary mb-4 flex items-center justify-center gap-4">
+                <i class="fas fa-laptop-code"></i> Digital Nabha Shiksha
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                Bridging the Digital Divide in Rural Education with Optimized Technology
+            </p>
         </div>
         
-        <div class="tabs">
-            <button class="tab-btn active" onclick="openTab('problem')">The Problem</button>
-            <button class="tab-btn" onclick="openTab('solution')">Our Solution</button>
-            <button class="tab-btn" onclick="openTab('ui-design')">UI Design</button>
-            <button class="tab-btn" onclick="openTab('performance')">Performance</button>
-            <button class="tab-btn" onclick="openTab('libraries')">Libraries</button>
-            <button class="tab-btn" onclick="openTab('implementation')">Implementation</button>
+        <!-- Tab Navigation -->
+        <div class="flex flex-wrap bg-white bg-opacity-90 rounded-xl overflow-hidden mb-6">
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all active:bg-primary active:text-white text-sm md:text-base" onclick="openTab('problem')">
+                Problem Statement
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('solution')">
+                Solution Flow
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('architecture')">
+                Architecture
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('ui-design')">
+                UI Design
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('technical')">
+                Technical Features
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('performance')">
+                Performance
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('libraries')">
+                Libraries
+            </button>
+            <button class="tab-btn flex-grow text-center py-3 px-4 md:py-4 md:px-6 bg-lightGray font-semibold transition-all" onclick="openTab('implementation')">
+                Implementation
+            </button>
         </div>
         
-        <!-- Problem Tab -->
-        <div id="problem" class="tab-content active">
-            <h2 class="section-header"><i class="fas fa-exclamation-circle"></i> The Challenge</h2>
-            <p>Government schools in Nabha and surrounding rural areas face significant digital infrastructure challenges:</p>
+        <!-- Problem Statement Tab -->
+        <div id="problem" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg active">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-exclamation-circle"></i> Problem Statement
+            </h2>
+            <p class="mb-6">Many government schools in Nabha and nearby rural areas lack updated computer infrastructure, reliable internet connectivity, and access to quality digital educational resources. Teachers and students struggle to use outdated systems, and digital literacy remains low. As a result, students face difficulties in learning essential digital skills and accessing modern educational content, leading to a widening gap between rural and urban education standards.</p>
             
-            <div class="ui-mockup">
-                <div class="mockup">
-                    <div class="mockup-header">Lack of Infrastructure</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-desktop fa-3x"></i>
-                            <p>Outdated computer systems with limited functionality</p>
-                        </div>
+            <h3 class="text-lg md:text-xl font-bold text-primary mb-4">Why This Problem Needs to Be Solved</h3>
+            <p class="mb-6">The lack of digital resources and skills limits students’ academic growth and future employability. With the increasing importance of digital literacy, students in rural Nabha risk being left behind, perpetuating cycles of educational and economic disadvantage. Addressing this problem is urgent to ensure equitable access to quality education and to empower rural youth with skills for the modern world.</p>
+            
+            <h3 class="text-lg md:text-xl font-bold text-primary mb-4">Expected Outcomes</h3>
+            <ul class="list-disc pl-6 mb-8 space-y-3">
+                <li>A mobile and web-based digital learning app that works offline.</li>
+                <li>Interactive lessons in local languages to improve engagement.</li>
+                <li>Digital literacy modules tailored for rural students.</li>
+                <li>Teacher dashboards to track student progress.</li>
+                <li>Optimized for low-end devices and poor connectivity.</li>
+            </ul>
+            
+            <h3 class="text-lg md:text-xl font-bold text-primary mb-4">Relevant Stakeholders</h3>
+            <ul class="list-disc pl-6 mb-8 space-y-3">
+                <li>Rural school students and teachers in Nabha</li>
+                <li>School administrators</li>
+                <li>Parents</li>
+                <li>Punjab Education Department</li>
+            </ul>
+            
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-chart-bar"></i> Digital Divide Statistics
+            </h2>
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8 chart-container">
+                <canvas id="digitalDivideChart"></canvas>
+                <p class="text-center text-gray-600 mt-4">Comparison of digital resources between urban (blue) and rural (red) schools</p>
+            </div>
+        </div>
+        
+        <!-- Solution Flow Tab -->
+        <div id="solution" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-lightbulb"></i> Solution Flow
+            </h2>
+            <p class="mb-6">Digital Nabha Shiksha is a mobile and web-based digital learning platform designed to address the challenges faced by rural schools. It operates offline, supports local languages, and is optimized for low-end devices, ensuring accessibility and usability in resource-constrained environments.</p>
+            
+            <h3 class="text-lg md:text-xl font-bold text-primary mb-4">Solution Components</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h4 class="text-md md:text-lg font-bold text-primary mb-3">Offline-First Design</h4>
+                    <p>Content is cached locally using IndexedDB, allowing students to access lessons without internet connectivity.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h4 class="text-md md:text-lg font-bold text-primary mb-3">Multilingual Content</h4>
+                    <p>Lessons in Punjabi, Hindi, and English with interactive elements to engage students.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h4 class="text-md md:text-lg font-bold text-primary mb-3">Teacher Dashboard</h4>
+                    <p>Tools for tracking student progress, assigning tasks, and managing classroom activities.</p>
+                </div>
+            </div>
+            
+            <h3 class="text-lg md:text-xl font-bold text-primary mb-4">Example Usage Scenario</h3>
+            <p class="mb-6">A student in a rural Nabha school downloads a math lesson on fractions during a brief period of internet connectivity at school. At home, without internet, they access the lesson on their low-end smartphone, complete interactive exercises, and save their progress. When they return to school, their progress syncs with the teacher's dashboard, allowing the teacher to review and provide feedback.</p>
+            
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-project-diagram"></i> Solution Flow Diagram
+            </h2>
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8 chart-container">
+                <canvas id="solutionFlowChart"></canvas>
+                <p class="text-center text-gray-600 mt-4">Flow of user interaction and data synchronization in Digital Nabha Shiksha</p>
+            </div>
+        </div>
+        
+        <!-- Architecture Tab -->
+        <div id="architecture" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-project-diagram"></i> System Architecture
+            </h2>
+            <p class="mb-6">The system is designed for offline-first operation with efficient synchronization capabilities. It includes client-side caching, server-side APIs, and secure data management, integrated with external API services for enhanced functionality.</p>
+            
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-lightGray rounded-lg p-5 text-center shadow-sm">
+                        <h4 class="text-md md:text-lg font-bold text-primary mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-mobile-alt"></i> Client Application
+                        </h4>
+                        <p>React PWA with offline capabilities using service workers.</p>
+                    </div>
+                    <div class="bg-lightGray rounded-lg p-5 text-center shadow-sm">
+                        <h4 class="text-md md:text-lg font-bold text-primary mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-database"></i> Local Storage
+                        </h4>
+                        <p>IndexedDB for offline data persistence and quick access.</p>
                     </div>
                 </div>
                 
-                <div class="mockup">
-                    <div class="mockup-header">Connectivity Issues</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-wifi fa-3x"></i>
-                            <p>Unreliable or non-existent internet access</p>
-                        </div>
+                <div class="text-center text-primary text-xl md:text-2xl my-4">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-lightGray rounded-lg p-5 text-center shadow-sm">
+                        <h4 class="text-md md:text-lg font-bold text-primary mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-cloud"></i> Sync Service
+                        </h4>
+                        <p>Background data synchronization with differential updates to minimize data usage.</p>
+                    </div>
+                    <div class="bg-lightGray rounded-lg p-5 text-center shadow-sm">
+                        <h4 class="text-md md:text-lg font-bold text-primary mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-server"></i> Application Server
+                        </h4>
+                        <p>AdonisJS API with compression, caching, and authentication.</p>
                     </div>
                 </div>
                 
-                <div class="mockup">
-                    <div class="mockup-header">Resource Scarcity</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-book fa-3x"></i>
-                            <p>Limited access to quality digital educational content</p>
-                        </div>
+                <div class="text-center text-primary text-xl md:text-2xl my-4">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-lightGray rounded-lg p-5 text-center shadow-sm">
+                        <h4 class="text-md md:text-lg font-bold text-primary mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-database"></i> Central Database
+                        </h4>
+                        <p>PostgreSQL with optimized schema for content delivery and user data.</p>
+                    </div>
+                    <div class="bg-lightGray rounded-lg p-5 text-center shadow-sm">
+                        <h4 class="text-md md:text-lg font-bold text-primary mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-file-alt"></i> Content Management
+                        </h4>
+                        <p>Optimized media delivery with compression and CDN integration.</p>
                     </div>
                 </div>
             </div>
             
-            <h2 class="section-header"><i class="fas fa-users"></i> Impact on Students</h2>
-            <ul>
-                <li>Limited academic growth and future employability</li>
-                <li>Widening gap between rural and urban education standards</li>
-                <li>Lack of digital literacy skills essential for modern workforce</li>
-                <li>Perpetuation of educational and economic disadvantage cycles</li>
+            <h3 class="text-lg md:text-xl font-bold text-primary mb-4">Additional Architecture Details</h3>
+            <ul class="list-disc pl-6 mb-8 space-y-3">
+                <li><strong>Security Layers:</strong> JWT authentication, encrypted data transmission, and role-based access control.</li>
+                <li><strong>Scalability:</strong> Horizontal scaling with load balancers and microservices architecture.</li>
+                <li><strong>Error Handling:</strong> Robust logging and monitoring with tools like Sentry.</li>
+                <li><strong>Deployment:</strong> Containerized with Docker and orchestrated via Kubernetes for easy scaling.</li>
+                <li><strong>API Integrations:</strong> Google Translate API for text translation and OpenAI API for voice translation services.</li>
             </ul>
-        </div>
-        
-        <!-- Solution Tab -->
-        <div id="solution" class="tab-content">
-            <h2 class="section-header"><i class="fas fa-lightbulb"></i> Our Approach</h2>
-            <p>Digital Nabha Shiksha provides a comprehensive solution tailored for rural education needs:</p>
             
-            <div class="ui-mockup">
-                <div class="mockup">
-                    <div class="mockup-header">Offline-First Design</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-signal-slash fa-3x"></i>
-                            <p>Works without internet connectivity</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mockup">
-                    <div class="mockup-header">Local Language Support</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-language fa-3x"></i>
-                            <p>Available in Punjabi and Hindi</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mockup">
-                    <div class="mockup-header">Low-End Optimized</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-mobile-alt fa-3x"></i>
-                            <p>Runs smoothly on basic smartphones</p>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-sitemap"></i> Architecture Diagram
+            </h2>
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8 chart-container">
+                <canvas id="architectureChart"></canvas>
+                <p class="text-center text-gray-600 mt-4">High-level architecture overview</p>
             </div>
-            
-            <h2 class="section-header"><i class="fas fa-cogs"></i> Technical Architecture</h2>
-            <ul>
-                <li><strong>Frontend:</strong> React with Vite for fast development and optimized builds</li>
-                <li><strong>Backend:</strong> AdonisJS for a structured and maintainable API</li>
-                <li><strong>Data Fetching:</strong> SWR for efficient caching and state management</li>
-                <li><strong>Offline Capability:</strong> PWA technology with service workers</li>
-                <li><strong>Storage:</strong> IndexedDB for offline data persistence</li>
-            </ul>
         </div>
         
         <!-- UI Design Tab -->
-        <div id="ui-design" class="tab-content">
-            <h2 class="section-header"><i class="fas fa-paint-brush"></i> User Interface Design</h2>
-            <p>Our UI is designed for simplicity, accessibility, and optimal performance on low-end devices:</p>
+        <div id="ui-design" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-paint-brush"></i> User Interface Design
+            </h2>
+            <p class="mb-6">The UI is designed for simplicity, accessibility, and performance on low-end devices:</p>
             
-            <div class="ui-mockup">
-                <div class="mockup">
-                    <div class="mockup-header">Student Dashboard</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-user-graduate fa-3x"></i>
-                            <p>Simple navigation with large buttons and clear typography</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="bg-primary text-white py-4 text-center font-semibold text-sm md:text-base">Student Dashboard</div>
+                    <div class="p-5 bg-lightGray min-h-[200px]">
+                        <div class="bg-gradient-to-br from-primary to-secondary h-48 rounded-lg flex flex-col justify-center items-center text-white p-4 text-center">
+                            <i class="fas fa-user-graduate text-4xl md:text-5xl mb-3"></i>
+                            <p class="text-sm md:text-base">Large buttons, clear typography, and intuitive navigation</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mockup">
-                    <div class="mockup-header">Lesson View</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-book-open fa-3x"></i>
-                            <p>Minimalist design with focus on content</p>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="bg-primary text-white py-4 text-center font-semibold text-sm md:text-base">Lesson View</div>
+                    <div class="p-5 bg-lightGray min-h-[200px]">
+                        <div class="bg-gradient-to-br from-primary to-secondary h-48 rounded-lg flex flex-col justify-center items-center text-white p-4 text-center">
+                            <i class="fas fa-book-open text-4xl md:text-5xl mb-3"></i>
+                            <p class="text-sm md:text-base">Minimalist design focusing on content delivery</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mockup">
-                    <div class="mockup-header">Teacher Portal</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-chalkboard-teacher fa-3x"></i>
-                            <p>Clean progress tracking and class management</p>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="bg-primary text-white py-4 text-center font-semibold text-sm md:text-base">Teacher Portal</div>
+                    <div class="p-5 bg-lightGray min-h-[200px]">
+                        <div class="bg-gradient-to-br from-primary to-secondary h-48 rounded-lg flex flex-col justify-center items-center text-white p-4 text-center">
+                            <i class="fas fa-chalkboard-teacher text-4xl md:text-5xl mb-3"></i>
+                            <p class="text-sm md:text-base">Progress tracking and classroom management tools</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <h2 class="section-header"><i class="fas fa-palette"></i> Design Principles</h2>
-            <ul>
-                <li><strong>Simplicity:</strong> Minimal UI elements to reduce cognitive load</li>
-                <li><strong>Consistency:</strong> Uniform design patterns throughout the app</li>
-                <li><strong>Accessibility:</strong> High contrast colors and large touch targets</li>
-                <li><strong>Performance:</strong> Optimized images and lazy loading of content</li>
-                <li><strong>Offline-First:</strong> UI clearly indicates offline/online status</li>
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-palette"></i> Design Principles
+            </h2>
+            <ul class="list-disc pl-6 mb-8 space-y-3 text-sm md:text-base">
+                <li><strong>Simplicity:</strong> Minimal UI to reduce cognitive load</li>
+                <li><strong>Accessibility:</strong> High contrast, large touch targets (48px+)</li>
+                <li><strong>Performance:</strong> Optimized images and lazy loading</li>
+                <li><strong>Multilingual Support:</strong> Seamless language switching</li>
+                <li><strong>Responsive Design:</strong> Adapts to all screen sizes using Tailwind breakpoints</li>
             </ul>
+        </div>
+        
+        <!-- Technical Features Tab -->
+        <div id="technical" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-cogs"></i> Technical Features
+            </h2>
+            <p class="mb-6">The platform incorporates advanced technical features to meet the needs of rural users, including integration with external API services for translation and voice capabilities:</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-download"></i> Offline Content Delivery
+                    </h3>
+                    <p>Lessons and exercises stored in IndexedDB, with differential syncing for updates.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-language"></i> Multilingual Interface
+                    </h3>
+                    <p>Dynamic language switching with support for Punjabi, Hindi, and English, including RTL support where needed.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-tachometer-alt"></i> Low Resource Usage
+                    </h3>
+                    <p>Optimized for devices with 1GB RAM and minimal storage, with efficient memory management.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-chalkboard-teacher"></i> Teacher Analytics
+                    </h3>
+                    <p>Real-time progress tracking, analytics dashboard, and custom reports for teachers.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-graduation-cap"></i> Digital Literacy Modules
+                    </h3>
+                    <p>Interactive lessons on computer basics, internet safety, coding fundamentals, and more.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-shield-alt"></i> Data Security
+                    </h3>
+                    <p>Encrypted local storage, secure API communication, and compliance with data protection regulations.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-users"></i> Collaborative Learning
+                    </h3>
+                    <p>Group activities and peer-to-peer sharing features when online.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-bell"></i> Notifications
+                    </h3>
+                    <p>Push notifications for updates and reminders via PWA capabilities.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-search"></i> Search Functionality
+                    </h3>
+                    <p>Offline search for lessons and resources using local indexing.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-globe"></i> Google Translate API
+                    </h3>
+                    <p>Integrated for real-time text translation to support multiple local languages in educational content.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-md border-t-4 border-primary">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                        <i class="fas fa-microphone"></i> OpenAI Voice Translation
+                    </h3>
+                    <p>Utilizes OpenAI APIs for voice-to-text and text-to-voice translation, enabling accessible audio learning in local dialects.</p>
+                </div>
+            </div>
+            
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-code"></i> Example Code Snippet
+            </h2>
+            <div class="bg-gray-900 text-white p-6 rounded-xl mb-8 overflow-x-auto">
+                <pre><code class="language-javascript">
+// Offline data synchronization using SWR and IndexedDB
+import useSWR from 'swr';
+import { openDB } from 'idb';
+
+const dbPromise = openDB('NabhaShikshaDB', 1, {
+    upgrade(db) {
+        db.createObjectStore('lessons', { keyPath: 'id' });
+    }
+});
+
+const fetcher = async (url) => {
+    const res = await fetch(url);
+    const data = await res.json();
+    const db = await dbPromise;
+    await db.put('lessons', data);
+    return data;
+};
+
+function LessonComponent({ lessonId }) {
+    const { data, error } = useSWR(`/api/lessons/${lessonId}`, fetcher, {
+        fallback: async () => {
+            const db = await dbPromise;
+            return db.get('lessons', lessonId);
+        }
+    });
+
+    if (error) return &lt;div&gt;Error loading lesson&lt;/div&gt;;
+    if (!data) return &lt;div&gt;Loading...&lt;/div&gt;;
+    return &lt;div&gt;{data.title}&lt;/div&gt;;
+}
+                </code></pre>
+            </div>
         </div>
         
         <!-- Performance Tab -->
-        <div id="performance" class="tab-content">
-            <h2 class="section-header"><i class="fas fa-tachometer-alt"></i> Performance Optimization</h2>
-            <p>We've implemented multiple strategies to ensure smooth performance on low-end devices:</p>
+        <div id="performance" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-tachometer-alt"></i> Performance Optimization
+            </h2>
+            <p class="mb-6">Optimized for low-end devices and poor connectivity:</p>
             
-            <div class="performance-grid">
-                <div class="perf-card">
-                    <h3><i class="fas fa-code"></i> Code Splitting</h3>
-                    <p>Lazy loading components with React.lazy() and Vite's dynamic imports to reduce initial bundle size.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 my-8">
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4">Code Splitting</h3>
+                    <p>Dynamic imports and React.lazy() to minimize initial load size.</p>
                 </div>
-                
-                <div class="perf-card">
-                    <h3><i class="fas fa-database"></i> Efficient Data Fetching</h3>
-                    <p>Using SWR for smart caching, background updates, and efficient revalidation of data.</p>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4">Asset Compression</h3>
+                    <p>WebP images and minified assets for reduced bandwidth usage.</p>
                 </div>
-                
-                <div class="perf-card">
-                    <h3><i class="fas fa-images"></i> Asset Optimization</h3>
-                    <p>Images are compressed, converted to WebP format, and lazy loaded to reduce bandwidth usage.</p>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4">Caching Strategies</h3>
+                    <p>Service workers for offline caching and fast loads.</p>
                 </div>
-                
-                <div class="perf-card">
-                    <h3><i class="fas fa-memory"></i> Memory Management</h3>
-                    <p>Efficient component rendering with memoization and avoidance of memory leaks.</p>
+                <div class="bg-white rounded-xl p-6 shadow-md">
+                    <h3 class="text-md md:text-xl font-bold text-primary mb-4">Performance Monitoring</h3>
+                    <p>Integrated with tools like Lighthouse for ongoing optimization.</p>
                 </div>
             </div>
             
-            <h2 class="section-header"><i class="fas fa-bolt"></i> Loading Strategies</h2>
-            <ul>
-                <li><strong>Critical CSS:</strong> Inlined to prevent render-blocking</li>
-                <li><strong>Prefetching:</strong> Anticipating user needs and preloading resources</li>
-                <li><strong>Caching:</strong> Service worker caching for instant loading of previously visited pages</li>
-                <li><strong>Bundle Analysis:</strong> Regular monitoring of bundle size to prevent bloat</li>
-            </ul>
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-chart-line"></i> Performance Metrics
+            </h2>
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8 chart-container">
+                <canvas id="performanceChart"></canvas>
+                <p class="text-center text-gray-600 mt-4">Performance comparison: Traditional apps (blue) vs. our solution (green)</p>
+            </div>
         </div>
         
         <!-- Libraries Tab -->
-        <div id="libraries" class="tab-content">
-            <h2 class="section-header"><i class="fas fa-book-open"></i> Library Recommendations</h2>
-            <p>Choosing the right libraries is crucial for performance on low-end devices:</p>
+        <div id="libraries" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-book-open"></i> Library Recommendations
+            </h2>
+            <p class="mb-6">Choosing the right libraries is crucial for performance on low-end devices:</p>
             
-            <div class="libraries-grid">
-                <div class="lib-card avoid">
-                    <h3><i class="fas fa-times-circle"></i> Avoid These Libraries</h3>
-                    <ul>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                <div class="bg-white rounded-xl p-6 shadow-md border-l-4 border-danger">
+                    <h3 class="text-md md:text-xl font-bold text-danger mb-4 flex items-center gap-3">
+                        <i class="fas fa-times-circle"></i> Avoid These Libraries
+                    </h3>
+                    <ul class="list-disc pl-6 space-y-2 text-sm md:text-base">
                         <li><strong>Moment.js</strong> - Too heavy, use date-fns or lightweight alternatives</li>
                         <li><strong>Lodash</strong> - Import only specific functions, not the entire library</li>
                         <li><strong>jQuery</strong> - Not needed with modern browser APIs</li>
@@ -489,113 +485,261 @@
                     </ul>
                 </div>
                 
-                <div class="lib-card use">
-                    <h3><i class="fas fa-check-circle"></i> Recommended Libraries</h3>
-                    <ul>
+                <div class="bg-white rounded-xl p-6 shadow-md border-l-4 border-success">
+                    <h3 class="text-md md:text-xl font-bold text-success mb-4 flex items-center gap-3">
+                        <i class="fas fa-check-circle"></i> Recommended Libraries
+                    </h3>
+                    <ul class="list-disc pl-6 space-y-2 text-sm md:text-base">
                         <li><strong>React Hook Form</strong> - Lightweight form management</li>
                         <li><strong>date-fns</strong> - Modern date utility library</li>
-                        <li><strong>Zustand</strong> - Lightweight state management</li>
-                        <li><strong>React Query/SWR</strong> - Efficient data fetching</li>
+                        <li><strong>Jotai</strong> - Lightweight state management</li>
+                        <li><strong>SWR</strong> - Efficient data fetching</li>
                         <li><strong>Framer Motion</strong> - Performant animations</li>
                     </ul>
                 </div>
             </div>
             
-            <h2 class="section-header"><i class="fas fa-flask"></i> Bundle Size Strategy</h2>
-            <ul>
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3 mt-12">
+                <i class="fas fa-flask"></i> Bundle Size Strategy
+            </h2>
+            <ul class="list-disc pl-6 mb-8 space-y-3 text-sm md:text-base">
                 <li>Regularly audit bundle size with tools like Webpack Bundle Analyzer</li>
                 <li>Set performance budgets (e.g., max initial bundle size of 100KB)</li>
                 <li>Use tree-shaking to eliminate unused code</li>
                 <li>Prefer smaller alternatives to popular libraries</li>
                 <li>Implement code splitting for larger features</li>
             </ul>
+            
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-weight-hanging"></i> Library Size Comparison
+            </h2>
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8 chart-container">
+                <canvas id="libraryChart"></canvas>
+                <p class="text-center text-gray-600 mt-4">Size comparison between commonly used libraries (blue) and our recommended alternatives (green)</p>
+            </div>
         </div>
         
         <!-- Implementation Tab -->
-        <div id="implementation" class="tab-content">
-            <h2 class="section-header"><i class="fas fa-code"></i> Implementation Plan</h2>
-            <p>Our phased approach to developing Digital Nabha Shiksha:</p>
+        <div id="implementation" class="tab-content bg-white bg-opacity-95 rounded-xl p-6 md:p-8 mb-8 shadow-lg">
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-code"></i> Implementation Plan
+            </h2>
+            <p class="mb-6">Phased development approach:</p>
             
-            <div class="ui-mockup">
-                <div class="mockup">
-                    <div class="mockup-header">Phase 1: Foundation</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-layer-group fa-3x"></i>
-                            <p>Setup core architecture and basic offline functionality</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="bg-primary text-white py-4 text-center font-semibold text-sm md:text-base">Phase 1: Core</div>
+                    <div class="p-5 bg-lightGray min-h-[200px]">
+                        <div class="bg-gradient-to-br from-primary to-secondary h-48 rounded-lg flex flex-col justify-center items-center text-white p-4 text-center">
+                            <i class="fas fa-layer-group text-4xl md:text-5xl mb-3"></i>
+                            <p class="text-sm md:text-base">Build offline-first architecture and basic UI</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mockup">
-                    <div class="mockup-header">Phase 2: Content</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-book fa-3x"></i>
-                            <p>Develop educational content in local languages</p>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="bg-primary text-white py-4 text-center font-semibold text-sm md:text-base">Phase 2: Content</div>
+                    <div class="p-5 bg-lightGray min-h-[200px]">
+                        <div class="bg-gradient-to-br from-primary to-secondary h-48 rounded-lg flex flex-col justify-center items-center text-white p-4 text-center">
+                            <i class="fas fa-book text-4xl md:text-5xl mb-3"></i>
+                            <p class="text-sm md:text-base">Develop and integrate multilingual lessons</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mockup">
-                    <div class="mockup-header">Phase 3: Refinement</div>
-                    <div class="mockup-body">
-                        <div class="mockup-screen">
-                            <i class="fas fa-tools fa-3x"></i>
-                            <p>Optimize performance and add advanced features</p>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="bg-primary text-white py-4 text-center font-semibold text-sm md:text-base">Phase 3: Scale</div>
+                    <div class="p-5 bg-lightGray min-h-[200px]">
+                        <div class="bg-gradient-to-br from-primary to-secondary h-48 rounded-lg flex flex-col justify-center items-center text-white p-4 text-center">
+                            <i class="fas fa-rocket text-4xl md:text-5xl mb-3"></i>
+                            <p class="text-sm md:text-base">Optimize performance and deploy to schools</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <h2 class="section-header"><i class="fas fa-tasks"></i> Development Timeline</h2>
-            <ul>
-                <li><strong>Weeks 1-2:</strong> Project setup and architecture design</li>
-                <li><strong>Weeks 3-4:</strong> Core functionality development</li>
-                <li><strong>Weeks 5-6:</strong> Content creation and integration</li>
-                <li><strong>Weeks 7-8:</strong> Testing and performance optimization</li>
-                <li><strong>Weeks 9-10:</strong> Pilot deployment and feedback collection</li>
-                <li><strong>Ongoing:</strong> Iterative improvements based on user feedback</li>
-            </ul>
+            <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 flex items-center gap-3 border-b-2 border-accent pb-3">
+                <i class="fas fa-chart-gantt"></i> Development Timeline
+            </h2>
+            <div class="bg-white rounded-xl p-6 shadow-md mb-8 chart-container">
+                <canvas id="timelineChart"></canvas>
+                <p class="text-center text-gray-600 mt-4">Gantt chart showing project phases and milestones</p>
+            </div>
         </div>
         
-        <div class="footer">
-            <p>Digital Nabha Shiksha - Empowering Rural Education Through Optimized Technology</p>
-            <p>© 2023 Digital Nabha Initiative | Designed for Performance and Accessibility</p>
+        <!-- Footer -->
+        <div class="text-center text-white py-8 text-sm md:text-base">
+            <p class="mb-2">Digital Nabha Shiksha - Empowering Rural Education</p>
+            <p>© 2025 Digital Nabha Initiative | Designed for Accessibility</p>
         </div>
     </div>
 
+    <script type="text/babel">
+        function App() {
+            return (
+                <div className="container mx-auto max-w-7xl">
+                    {/* React components can be added here for dynamic functionality */}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.createElement('div'));
+        root.render(<App />);
+    </script>
+
     <script>
         function openTab(tabId) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
-            // Deactivate all buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
+                btn.classList.remove('active', 'bg-primary', 'text-white');
+                btn.classList.add('bg-lightGray');
             });
-            
-            // Activate selected tab
             document.getElementById(tabId).classList.add('active');
-            
-            // Activate clicked button
-            event.currentTarget.classList.add('active');
+            event.currentTarget.classList.add('bg-primary', 'text-white');
+            event.currentTarget.classList.remove('bg-lightGray');
         }
-        
-        // Add keyboard navigation for tabs
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                const tabs = Array.from(document.querySelectorAll('.tab-btn'));
-                const currentIndex = tabs.findIndex(tab => tab.classList.contains('active'));
-                
-                if (e.key === 'ArrowRight') {
-                    const nextIndex = (currentIndex + 1) % tabs.length;
-                    tabs[nextIndex].click();
-                } else if (e.key === 'ArrowLeft') {
-                    const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-                    tabs[prevIndex].click();
+
+        // Chart.js for Digital Divide
+        new Chart(document.getElementById('digitalDivideChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Internet Access', 'Digital Devices', 'Digital Literacy'],
+                datasets: [
+                    {
+                        label: 'Urban Schools',
+                        data: [80, 75, 85],
+                        backgroundColor: '#1a2a6c',
+                    },
+                    {
+                        label: 'Rural Schools',
+                        data: [30, 25, 20],
+                        backgroundColor: '#b21f1f',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Availability (%)' }
+                    }
+                }
+            }
+        });
+
+        // Chart.js for Solution Flow
+        new Chart(document.getElementById('solutionFlowChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Download Content', 'Offline Usage', 'Sync Progress', 'Teacher Review'],
+                datasets: [{
+                    data: [25, 25, 25, 25],
+                    backgroundColor: ['#1a2a6c', '#b21f1f', '#fdbb2d', '#28a745']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Solution Flow Stages' }
+                }
+            }
+        });
+
+        // Chart.js for Architecture
+        new Chart(document.getElementById('architectureChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Client', 'Local Storage', 'Sync Service', 'Server', 'Database', 'Content Mgmt'],
+                datasets: [{
+                    label: 'Component Integration',
+                    data: [90, 85, 95, 80, 90, 85],
+                    backgroundColor: 'rgba(253, 187, 45, 0.2)',
+                    borderColor: '#fdbb2d',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Architecture Components' }
+                }
+            }
+        });
+
+        // Chart.js for Performance Metrics
+        new Chart(document.getElementById('performanceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Load Time', 'Memory Usage', 'Data Transfer'],
+                datasets: [
+                    {
+                        label: 'Traditional App',
+                        data: [7, 65, 80],
+                        backgroundColor: '#1a2a6c',
+                    },
+                    {
+                        label: 'Our Solution',
+                        data: [3, 25, 35],
+                        backgroundColor: '#28a745',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Metric Value' }
+                    }
+                }
+            }
+        });
+
+        // Chart.js for Library Size
+        new Chart(document.getElementById('libraryChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Moment.js', 'date-fns', 'Lodash', 'Lodash-es', 'Redux', 'Jotai'],
+                datasets: [
+                    {
+                        label: 'Size (KB)',
+                        data: [85, 25, 75, 15, 65, 5],
+                        backgroundColor: ['#1a2a6c', '#28a745', '#1a2a6c', '#28a745', '#1a2a6c', '#28a745']
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Bundle Size (KB)' }
+                    }
+                }
+            }
+        });
+
+        // Chart.js for Timeline
+        new Chart(document.getElementById('timelineChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Phase 1', 'Phase 2', 'Phase 3', 'Deployment'],
+                datasets: [{
+                    label: 'Duration (Weeks)',
+                    data: [2, 2, 2, 2],
+                    backgroundColor: '#fdbb2d',
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Development Timeline' }
                 }
             }
         });
